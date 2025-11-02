@@ -1,0 +1,211 @@
+/* --- Global Reset & Body Layout --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f4f7f9; /* Light, soft background */
+  color: #333;
+}
+
+/* Use CSS Grid for the overall layout */
+.dashboard-layout {
+  display: grid;
+  /* header | main | sidebar */
+  grid-template-areas:
+    "header header header"
+    "main main aside";
+  grid-template-columns: 1fr 1fr 300px; /* Wider main area, fixed sidebar width */
+  min-height: 100vh;
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50; /* Dark primary color */
+  color: white;
+  padding: 15px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8em;
+  margin: 0;
+  font-weight: 600;
+}
+
+.event-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  background-color: #3498db; /* Clear blue for buttons */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  font-weight: 500;
+}
+
+.nav-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+/* --- Sidebar (Aside) --- */
+.sidebar {
+  grid-area: aside;
+  background-color: #ffffff; /* White sidebar */
+  padding: 20px;
+  border-left: 1px solid #e0e0e0;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.profile-card {
+  text-align: center;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ecf0f1; /* Light gray background for the card */
+}
+
+.profile-card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.username-display {
+  font-weight: bold;
+  color: #3498db;
+  margin: 10px 0;
+}
+
+.logout-btn {
+  background-color: #e74c3c; /* Red for logout/danger */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+  grid-area: main;
+  padding: 30px;
+}
+
+.content-title {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.call-to-action {
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* --- Form and Input Styling --- */
+.event-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Better box shadow */
+  display: grid;
+  gap: 15px; /* Spacing between form elements */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid for forms */
+}
+
+/* Make inputs/textareas take up one column */
+.event-form input,
+.event-form select {
+  grid-column: span 1;
+}
+
+/* Make textarea and save button take full width */
+.event-form textarea,
+.save-btn {
+  grid-column: 1 / -1; 
+}
+
+.event-form input,
+.event-form textarea,
+.event-form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  font-size: 1em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.event-form input:focus,
+.event-form textarea:focus,
+.event-form select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+.save-btn {
+  background-color: #2ecc71; /* Green for save/success */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #27ae60;
+}
+/* Saved Events Section */
+.saved-section {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.saved-section h4 {
+  color: #2c3e50;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.saved-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.saved-section li {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: #ecf0f1;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.saved-section li:hover {
+  background: #d0e6f9;
+}
