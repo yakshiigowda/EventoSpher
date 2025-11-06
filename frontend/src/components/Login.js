@@ -12,17 +12,18 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     // dummy authentication logic
-    if (username === "admin" && password === "1234") {
-      alert("Login Successful 🎉");  // here we need to replace for fetching backend 
-    } else {
-      alert("Invalid username or password");
-    }
-  };
+    if (username === "rama" && password === "1234") {
+   
+    navigate("/dashboard");   // login to dahboard redirect
+  } else {
+    alert("Invalid username or password ");
+    // ❌ Don't navigate here — just show alert
+  }
+};
   
   const gotoRegister=()=>{
     navigate("/register"); // naviagate route to register page
   }
-
   return (
     <div
       className="login-page"
@@ -36,7 +37,11 @@ function Login() {
       </header>
 
       <div className="center-box">
+      
         <form className="login-box" onSubmit={handleLogin}>
+          <p className="login-motto">
+      "Simplify Event Planning. Amplify Every Celebration."
+    </p>
           <h2>User Login</h2>
           <input
             type="text"
