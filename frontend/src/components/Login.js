@@ -4,23 +4,44 @@ import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import "./Auth.css";
 import scurt from "../assets/images/scurt.png";
-import logo from "../assets/images/logo.png"; // optional
+import logo from "../assets/images/logo.png"; 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate=useNavigate(); // for navigation
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {  // if any error you get await add async 
     e.preventDefault();
     // dummy authentication logic
-    if (username === "rama" && password === "1234") {
+//     if (username === "rama" && password === "1234") {
    
-    navigate("/dashboard");   // login to dahboard redirect
+//     navigate("/dashboard");   // login to dahboard redirect
+//   } else {
+//     alert("Invalid username or password ");
+//     // ❌ Don't navigate here — just show alert
+//   }
+// };
+try {
+  const response = await fetch("http://localhost:5000/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    alert(data.message);
+    navigate("/dashboard");
   } else {
-    alert("Invalid username or password ");
-    // ❌ Don't navigate here — just show alert
+    alert(data.message);
   }
+} catch (error) {
+  console.error("Error connecting to server:", error);
+  alert("Server not reachable. Please try again later.");
+}
 };
-  
   const gotoRegister=()=>{
     navigate("/register"); // naviagate route to register page
   }
