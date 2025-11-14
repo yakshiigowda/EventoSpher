@@ -1,6 +1,6 @@
 # EventoSpher
 <p align="center">
-  <img src="Doc/design/logo.png" alt="EventoSpher Logo" width="200"/>
+  <img src="Doc/design/logo.png" alt="EventoSpher Logo" width="200" height="100"/>
 </p>
 
 Plan. Manage. Celebrate – with EventoSpher
