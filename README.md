@@ -1,4 +1,8 @@
 # EventoSpher
+<p align="center">
+  <img src="Doc/design/logo.png" alt="EventoSpher Logo" width="200" height="100"/>
+</p>
+
 Plan. Manage. Celebrate – with EventoSpher
 
 EventoSpher is an all-in-one event management platform designed to simplify how event organizers plan, manage, and track their events. Whether it’s a wedding, birthday, or engagement, EventoSpher provides a unified dashboard where users can create, edit, and manage every detail effortlessly.
