@@ -1,19 +1,17 @@
-// ------------------------------------
-// ✅ Import Dependencies
-// ------------------------------------
+
 const express = require("express");
-const cors = require("cors"); // Make sure to run: npm install cors
+const cors = require("cors"); 
 const app = express();
 const PORT = 5000;
 
 // ------------------------------------
-// ✅ Middleware Setup
+//  Middleware Setup
 // ------------------------------------
-app.use(cors());            // Enables CORS for frontend communication
-app.use(express.json());    // Parses JSON request bodies
+app.use(cors());            
+app.use(express.json());    
 
 // ------------------------------------
-// ✅ Login API
+//  Login API
 // ------------------------------------
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
@@ -26,8 +24,9 @@ app.post("/api/login", (req, res) => {
   }
 });
 
+
 // ------------------------------------
-// ✅ Register API
+//  Register API
 // ------------------------------------
 app.post("/api/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -40,9 +39,41 @@ app.post("/api/register", (req, res) => {
   }
 });
 
+//----------------------------------------
+// dashboard logics
+//----------------------------------------
+
+//-------------------------------
+// SAVE EVENT (Wedding/Birthday/Engagement)
+// -------------------------------
+app.post("/api/save-event", (req, res) => {
+  const eventData = req.body;
+
+  if (!eventData.type || !eventData.details) {
+    return res
+      .status(400)
+      .json({ message: "Event type and details are required" });
+  }
+
+  savedEvents.push(eventData);
+
+  res.status(200).json({
+    message: `${eventData.type} details saved successfully!`,
+  });
+});
+
+// -------------------------------
+// GET ALL SAVED EVENTS
+// -------------------------------
+app.get("/api/saved-events", (req, res) => {
+  res.json({ events: savedEvents });
+});
+
+
+
 // ------------------------------------
-// ✅ Server Start
+//  Server Start
 // ------------------------------------
 app.listen(PORT, () => {
-  console.log(`✅ Server running at port ${PORT}`);
+  console.log(` Server running at port ${PORT}`);
 });
