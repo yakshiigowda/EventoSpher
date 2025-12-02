@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Auth.css";
 import userLogo from "../assets/images/loginlogo.png";
 import logo from "../assets/images/logo.png";
@@ -7,13 +7,10 @@ import wedImg from "../assets/images/wed_img.png";
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("wedding");
 
-  // Saved details list
-  const [savedEvents, setSavedEvents] = useState([
-    { id: 1, type: "wedding", name: "Arjuna Wedding" },
-    { id: 2, type: "birthday", name: "Sitha Birthday" },
-  ]);
+  const [savedEvents, setSavedEvents] = useState([]);
 
-  // Form data (changes every tab)
+  const [showAllEvents, setShowAllEvents] = useState(false);
+
   const [formData, setFormData] = useState({
     groom: "",
     bride: "",
@@ -26,59 +23,109 @@ const Dashboard = () => {
     couple: "",
   });
 
-  // LIVE UPDATE saved details for current tab
+  // Fetch all events from DB
+  const loadEvents = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/saved-events");
+      const data = await res.json();
+      setSavedEvents(data.events);
+    } catch (err) {
+      console.error("Error loading events:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadEvents();
+  }, []);
+
+  // Update Title for Live Preview
   const updateLivePreview = (updatedForm) => {
     let title = "";
 
     if (activeTab === "wedding") {
-      title = `${updatedForm.groom || "Groom"} & ${updatedForm.bride || "Bride"}`;
+      title = `${updatedForm.groom || "Groom"} & ${
+        updatedForm.bride || "Bride"
+      }`;
     } else if (activeTab === "birthday") {
       title = updatedForm.person || "Birthday Person";
     } else if (activeTab === "engagement") {
       title = updatedForm.couple || "Engagement Couple";
     }
 
-    // Update or create live preview item
     setSavedEvents((prev) => {
-      const existing = prev.find((e) => e.type === activeTab && e.id === 999);
+      const fake = prev.find((e) => e.id === 999 && e.type === activeTab);
 
-      if (existing) {
+      if (fake) {
         return prev.map((item) =>
           item.id === 999 ? { ...item, name: title } : item
         );
       }
 
-      return [
-        ...prev,
-        { id: 999, type: activeTab, name: title } // Live preview item
-      ];
+      return [...prev, { id: 999, type: activeTab, name: title }];
     });
   };
 
-  // When typing
   const handleChange = (e) => {
     const newForm = { ...formData, [e.target.name]: e.target.value };
     setFormData(newForm);
     updateLivePreview(newForm);
   };
 
-  // Final Save button
-  const handleSave = () => {
-    const liveItem = savedEvents.find((e) => e.id === 999 && e.type === activeTab);
-    if (liveItem) {
-      // Convert preview into permanent saved item
-      setSavedEvents((prev) => [
-        ...prev.filter((e) => !(e.id === 999 && e.type === activeTab)),
-        { id: Date.now(), type: activeTab, name: liveItem.name },
-      ]);
-    }
+  // SAVE EVENT
+  const handleSave = async () => {
+    const livePreview = savedEvents.find(
+      (e) => e.id === 999 && e.type === activeTab
+    );
 
-    alert(`${activeTab.toUpperCase()} details saved!`);
+    if (!livePreview) return;
+
+    const eventData = {
+      type: activeTab,
+      name: livePreview.name,
+      formData,
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/save-event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eventData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message);
+        loadEvents();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("Server error. Try again later.");
+    }
+  };
+
+  // DELETE EVENT
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this event?")) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/delete-event/${id}`,
+        { method: "DELETE" }
+      );
+
+      const data = await res.json();
+
+      alert(data.message);
+      loadEvents();
+    } catch (err) {
+      alert("Error deleting event.");
+    }
   };
 
   return (
     <div className="dashboard-container">
-
       {/* Header */}
       <header className="dashboard-header">
         <div className="brand">
@@ -96,22 +143,27 @@ const Dashboard = () => {
             </button>
           ))}
         </div>
+
+        <button
+          className="view-all-btn"
+          onClick={() => setShowAllEvents(true)}
+        >
+          📋 View All Events
+        </button>
       </header>
 
       <div className="main-content">
-
-        {/* LEFT CONTENT */}
+        {/* LEFT SIDE */}
         <div className="event-section">
           <h2 className="event-heading">
             {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Management
           </h2>
           <div className="divider"></div>
 
-          {/* WEDDING SECTION */}
+          {/* Wedding Form */}
           {activeTab === "wedding" && (
             <div className="wedding-box">
               <div className="wedding-form">
-
                 <div className="image-area">
                   <img src={wedImg} alt="Wedding" className="wed-img" />
                 </div>
@@ -169,7 +221,7 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* BIRTHDAY SECTION */}
+          {/* BIRTHDAY FORM */}
           {activeTab === "birthday" && (
             <div className="form-box">
               <input
@@ -206,7 +258,7 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* ENGAGEMENT SECTION */}
+          {/* ENGAGEMENT FORM */}
           {activeTab === "engagement" && (
             <div className="form-box">
               <input
@@ -245,18 +297,57 @@ const Dashboard = () => {
             <button className="logout-btn">Logout</button>
           </div>
 
-          {/* Saved Details */}
           <div className="saved-section">
             <h3>Saved Details</h3>
             <ul>
-              {savedEvents.map((event) => (
-                <li key={event.id}>{event.name}</li>
-              ))}
+              {savedEvents.map((event) =>
+                event.id !== 999 ? (
+                  <li key={event._id}>
+                    {event.name}  
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(event._id)}
+                    >
+                      ❌
+                    </button>
+                  </li>
+                ) : null
+              )}
             </ul>
           </div>
         </div>
-
       </div>
+
+      {/* VIEW ALL EVENTS POPUP */}
+      {showAllEvents && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>All Saved Events</h2>
+
+            {savedEvents.length === 0 ? (
+              <p>No events found.</p>
+            ) : (
+              <ul>
+                {savedEvents.map(
+                  (event) =>
+                    event.id !== 999 && (
+                      <li key={event._id}>
+                        <strong>{event.type.toUpperCase()}:</strong> {event.name}
+                      </li>
+                    )
+                )}
+              </ul>
+            )}
+
+            <button
+              className="close-btn"
+              onClick={() => setShowAllEvents(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
