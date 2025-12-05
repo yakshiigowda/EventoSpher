@@ -608,3 +608,238 @@
     height: 150px;
   }
 }
+
+
+/* --- TABLE STYLES --- */
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+}
+
+.events-table th, 
+.events-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.events-table th {
+  background-color: #007bff; /* Primary Blue */
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.events-table tbody tr:hover {
+  background-color: #f1f8ff; /* Light blue hover */
+}
+
+.events-table tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9; /* Zebra striping */
+}
+
+.name-cell {
+  font-weight: bold;
+  color: #333;
+}
+
+/* --- BADGES FOR EVENT TYPE --- */
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.badge.wedding { background-color: #e3f2fd; color: #1976d2; border: 1px solid #1976d2; }
+.badge.birthday { background-color: #fce4ec; color: #c2185b; border: 1px solid #c2185b; }
+.badge.engagement { background-color: #f3e5f5; color: #7b1fa2; border: 1px solid #7b1fa2; }
+
+/* --- ACTION BUTTONS IN TABLE --- */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-icon.view {
+  background-color: #e7f1ff;
+  color: #007bff;
+}
+.btn-icon.view:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-icon.edit {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.btn-icon.edit:hover {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-icon.delete {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.btn-icon.delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* --- MODAL TWEAKS --- */
+.modal-content.large {
+  width: 800px;
+  max-width: 95%;
+}
+
+.modal-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
+
+
+/* TABLE CONTAINER */
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+/* TABLE ITSELF */
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-family: sans-serif;
+}
+
+.events-table th, .events-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.events-table th {
+  background-color: #007bff;
+  color: white;
+  position: sticky;
+  top: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* ACTION BUTTONS IN TABLE */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn-icon.view { background: #e3f2fd; color: #1976d2; }
+.btn-icon.edit { background: #fff3e0; color: #f57c00; }
+.btn-icon.delete { background: #ffebee; color: #d32f2f; }
+
+.btn-icon:hover { opacity: 0.8; }
+
+/* BADGES */
+.badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.badge.wedding { background: #e1f5fe; color: #0288d1; }
+.badge.birthday { background: #fce4ec; color: #c2185b; }
+.badge.engagement { background: #f3e5f5; color: #7b1fa2; }
+
+
+/* --- EDIT TABLE STYLES --- */
+.edit-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Space between rows */
+}
+
+.edit-table td {
+  padding: 5px;
+  vertical-align: middle;
+}
+
+.edit-label {
+  width: 30%;
+  font-weight: 600;
+  color: #555;
+  text-align: right;
+  padding-right: 15px; /* Spacing between label and input */
+  white-space: nowrap;
+}
+
+.edit-input-cell {
+  width: 70%;
+}
+
+.table-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.table-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+textarea.table-input {
+  resize: vertical;
+}
