@@ -17,7 +17,7 @@ import logo from "../assets/images/logo.png";
 // //     navigate("/dashboard");   // login to dahboard redirect
 // //   } else {
 // //     alert("Invalid username or password ");
-// //     // ❌ Don't navigate here — just show alert
+// //     // Don't navigate here — just show alert
 // //   }
 // // };
 
